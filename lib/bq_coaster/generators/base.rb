@@ -6,10 +6,11 @@ require "hashie/mash"
 module BqCoaster
   module Generators
     class Base
-      attr_reader :definition_file
+      attr_reader :definition_file, :options
 
-      def initialize(definition_file)
+      def initialize(definition_file, options)
         @definition_file = definition_file
+        @options = options
       end
 
       private
