@@ -23,12 +23,12 @@ module BqCoaster
         )
       end
 
-      def parse(name, definition, parent = "")
+      def parse(name, definition, prefix = "")
         if nested?(definition)
           definition.map { |n, d| parse(n, d, "#{name}_") }
         else
           {
-            name: name,
+            name: "#{prefix}#{name}",
             type: (definition&.type || "string").upcase,
             mode: (definition&.mode || "nullable").upcase
           }
