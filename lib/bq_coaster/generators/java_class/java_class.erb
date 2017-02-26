@@ -1,0 +1,10 @@
+<%- if package %>
+package <%= package %>;
+
+<%- end %>
+<%- if dataflow %>
+import org.apache.avro.reflect.Nullable;
+import org.apache.beam.sdk.coders.DefaultCoder;
+import org.apache.beam.sdk.coders.AvroCoder;
+<%- end %>
+<%= java_class %>

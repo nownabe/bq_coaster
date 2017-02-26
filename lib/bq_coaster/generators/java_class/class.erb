@@ -1,0 +1,21 @@
+
+<% if dataflow? %>@DefaultCoder(AvroCoder.class)<% end %>
+<%= static? ? "static" : "public" %> class <%= class_name %> {
+    <%- definitions.each do |name, definition| %>
+    <%= dataflow? ? "@Nullable " : "" %>public <%= nested?(definition) ? name.camelize : type(definition) %> <%= name %>;
+        <%- if nested?(definition) %>
+        <%= render_class(name.camelize, definition) %>
+        <%- end %>
+    <%- end %>
+
+    public <%= class_name %>(
+<%= definitions.map do |name, definition|
+      type = nested?(definition) ? name.camelize : type(definition)
+      "        #{type} #{name}"
+    end.join(",\n") %>
+    ) {
+        <%- definitions.each do |name, definition| %>
+        this.<%= name %> = <%= name %>;
+        <%- end %>
+    }
+}
