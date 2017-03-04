@@ -1,0 +1,18 @@
+<%- if package %>
+package <%= package %>;
+
+<%- end %>
+import com.google.api.services.bigquery.model.TableRow;
+import org.apache.beam.sdk.transforms.SimpleFunction;
+
+public class <%= class_name %>
+    extends SimpleFunction<<%= source_class %>, TableRow> {
+
+    @Override
+    public TableRow apply(<%= source_class %> src) {
+        TableRow row = new TableRow();
+
+<%= converter %>
+        return row;
+    }
+}

@@ -1,0 +1,9 @@
+<%- definitions.each do |name, definition| %>
+if (<%= prefix %>.<%= name %> != null) {
+    <%- if nested?(definition) %>
+<%= render_converter(name, definition) %>
+    <%- else %>
+    row.set("<%= field_name(name) %>", <%= value(name, definition) %>);
+    <%- end %>
+}
+<%- end %>
