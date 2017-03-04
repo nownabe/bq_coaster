@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "bq_coaster"
 require "bq_coaster/generators/java_class/class_renderer"
 
 module BqCoaster
@@ -26,10 +27,7 @@ module BqCoaster
 
         def nested?(definition)
           !(
-            definition.nil? ||
-            definition.key?(:type) ||
-            definition.key?(:mode) ||
-            definition.key?(:pre)
+            definition.nil? || BqCoaster.edge_properties.any? { |c| definition.key?(c) }
           )
         end
 
@@ -49,8 +47,8 @@ module BqCoaster
 
         def type(definition)
           return "String" unless definition
-          return definition[:original_type] if definition[:original_type]
-          case definition[:type]
+          return definition[:_original_type] if definition[:_original_type]
+          case definition[:_type]
           when "integer"
             "Long"
           when "float"

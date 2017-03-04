@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "json"
+require "bq_coaster"
 require "bq_coaster/generators/base"
 
 module BqCoaster
@@ -16,21 +17,18 @@ module BqCoaster
 
       def nested?(definition)
         !(
-          definition.nil? ||
-          definition.key?(:type) ||
-          definition.key?(:mode) ||
-          definition.key?(:pre)
+          definition.nil? || BqCoaster.edge_properties.any? { |c| definition.key?(c) }
         )
       end
 
       def parse(name, definition, prefix = "")
         if nested?(definition)
-          definition.map { |n, d| parse(n, d, "#{name}_") }
+          definition.map { |n, d| parse(n, d, "#{prefix}#{name}_") }
         else
           {
             name: "#{prefix}#{name}",
-            type: (definition&.type || "string").upcase,
-            mode: (definition&.mode || "nullable").upcase
+            type: (definition&._type || "string").upcase,
+            mode: (definition&._mode || "nullable").upcase
           }
         end
       end
