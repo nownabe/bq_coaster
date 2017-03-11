@@ -39,6 +39,17 @@ module BqCoaster
           ).render
         end
 
+        def string?(definition)
+          return false if nested?(definition)
+          return true if definition.nil?
+          if definition.key?(:_original_type)
+            definition._original_type == "String"
+          else
+            return true unless definition.key?(:_type)
+            definition._type.casecmp("string").zero?
+          end
+        end
+
         def value(name, definition)
           if definition&.key?(:_convert)
             definition._convert % ["#{prefix}.#{name}"]

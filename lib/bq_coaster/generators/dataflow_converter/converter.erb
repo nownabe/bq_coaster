@@ -1,5 +1,5 @@
 <%- definitions.each do |name, definition| %>
-if (<%= prefix %>.<%= name %> != null) {
+if (<%= prefix %>.<%= name %> != null<%= string?(definition) ? " && !#{prefix}.#{name}.equals(\"<null>\")" : "" %>) {
     <%- if nested?(definition) %>
 <%= render_converter(name, definition) %>
     <%- else %>
