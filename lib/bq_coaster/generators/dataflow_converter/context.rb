@@ -18,7 +18,7 @@ module BqCoaster
         end
 
         def field_name(name)
-          "#{prefix}.#{name}".sub(/src\./, "").gsub(/\./, "_")
+          "#{prefix}.#{name}".sub(/src\./, "").tr(".", "_")
         end
 
         def nested?(definition)
