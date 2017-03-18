@@ -52,7 +52,7 @@ module BqCoaster
 
         def value(name, definition)
           if definition&.key?(:_convert)
-            definition._convert % ["#{prefix}.#{name}"]
+            definition._convert.gsub(/%s/, "#{prefix}.#{name}")
           else
             "#{prefix}.#{name}"
           end
